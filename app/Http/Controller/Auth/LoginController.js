@@ -1,24 +1,36 @@
 
-const User = require('../../../Model/User');
+const UserModel = require('../../../Model/UserModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const Controller = require('../Controller');
 require('dotenv').config();
 
 
-class LoginController {
-    static async login(req, res) {
+class LoginController extends Controller {
+    static async postLogin(req, res) {
+        // validate req
+        const isValid = super.validator(req, res, {
+            email: ['string'],
+            password: ['string']
+        });
+        if (!isValid) return;
+
+        // init var
         const { email, password } = req.body
 
-        const user = await User.query().where({ email }).first();
+        // check email
+        const user = await UserModel.query().where({ email }).first();
         if (!user) return res.status(401).send({
             message: 'Email tidak terdaftar!'
         })
 
+        // check password
         const checkPassword = await bcrypt.compare(password, user.password)
         if (!checkPassword) return res.status(401).send({
             message: 'Password salah!'
         })
 
+        // generate token
         const token = jwt.sign({
             id: user.id,
             email: user.email

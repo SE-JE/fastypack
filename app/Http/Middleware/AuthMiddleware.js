@@ -1,7 +1,7 @@
 
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
-const User = require('../../Model/User');
+const UserModel = require('../../Model/UserModel');
 
 
 exports.auth = async (_req, _res, next) => {
@@ -17,7 +17,7 @@ exports.auth = async (_req, _res, next) => {
         return decoded
     })
 
-    const user = await User.query().findById(dataUser.id);
+    const user = await UserModel.query().findById(dataUser.id);
     if (!user) _res.status(401).end()
 
     _req.user = user

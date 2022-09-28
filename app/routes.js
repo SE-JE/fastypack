@@ -8,7 +8,7 @@ const { auth } = require("./Http/Middleware/AuthMiddleware");
 module.exports = async (app, options, done) => {
 
     app.get('/', SampleController.index)
-    app.post('/login', LoginController.login)
+    app.post('/login', LoginController.postLogin)
     app.post('/register', RegisterController.reigister)
     app.get('/withAuth', { preHandler: [auth] }, SampleController.index)
 

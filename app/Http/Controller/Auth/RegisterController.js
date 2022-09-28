@@ -1,26 +1,40 @@
 
-const User = require('../../../Model/User');
+const UserModel = require('../../../Model/UserModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const Controller = require('../Controller');
 require('dotenv').config();
 
 
-class RegisterController {
+class RegisterController extends Controller {
     static async reigister(req, res) {
-        const { email, password, name } = req.body
+        // validate req
+        const isValid = super.validator(req, res, {
+            name: ['string'],
+            email: ['string'],
+            password: ['string']
+        });
+        if (!isValid) return;
 
+        // check email
+        const checkEmail = (await UserModel.query().select('id').where({ email: 'Admin1@email.com1' }).first())?.id;
+        if (checkEmail) return res.status(422).send({
+            message: [{ email: 'Email telah terdaftar' }]
+        })
+
+        // init var
+        const { email, password, name } = req.body
         const salt = bcrypt.genSaltSync(10);
         const passwordHash = bcrypt.hashSync(password, salt);
 
-        const register = await User.query().insert({
+        // insert user
+        const user = await UserModel.query().insert({
             email,
             name,
             password: passwordHash
         })
-        console.log(register);
 
-        const user = await User.query().where({ email }).first();
-
+        // generate token
         const token = jwt.sign({
             id: user?.id,
             email: user?.email
@@ -28,7 +42,7 @@ class RegisterController {
             expiresIn: '7d'
         })
 
-        res.send({
+        return res.send({
             message: "reigister berhasil",
             token
         })

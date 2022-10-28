@@ -1,16 +1,18 @@
-const LoginController = require("./Http/Controller/Auth/LoginController");
-const RegisterController = require("./Http/Controller/Auth/RegisterController");
-const SampleController = require("./Http/Controller/SampleController");
-const { auth } = require("./Http/Middleware/AuthMiddleware");
+import LoginController from "./Http/Controller/Auth/LoginController.js";
+import RegisterController from "./Http/Controller/Auth/RegisterController.js";
+import SampleController from "./Http/Controller/SampleController.js";
+import { auth } from "./Http/Middleware/AuthMiddleware.js";
 
 
 
-module.exports = async (app, options, done) => {
+export default async (app, options, done) => {
+    app.get('/', (_req, _res) => {
+        return _res.send(koala)
+    })
 
-    app.get('/', SampleController.index)
+    app.get('/p', SampleController.index)
     app.post('/login', LoginController.postLogin)
     app.post('/register', RegisterController.reigister)
     app.get('/withAuth', { preHandler: [auth] }, SampleController.index)
-
     done();
 }

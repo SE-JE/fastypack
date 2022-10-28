@@ -1,4 +1,11 @@
 {
+  "name": "fastypack-modular",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/2-Q/fastypack.git",
+  "author": "2-Q <243dwiki.com@gmail.com>",
+  "license": "MIT",
+  "type": "module",
   "dependencies": {
     "@fastify/autoload": "^5.3.1",
     "@fastify/cors": "^8.1.0",

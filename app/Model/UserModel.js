@@ -1,5 +1,5 @@
-const { Model } = require('objection');
-const { dbConnection } = require('../../config/db');
+import { Model } from 'objection';
+import { dbConnection } from '../../config/db.js';
 
 Model.knex(dbConnection);
 
@@ -9,4 +9,4 @@ class UserModel extends Model {
     }
 }
 
-module.exports = UserModel;
+export default UserModel;

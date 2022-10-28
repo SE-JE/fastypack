@@ -1,10 +1,15 @@
 
-require('dotenv').config();
-const jwt = require('jsonwebtoken');
-const UserModel = require('../../Model/UserModel');
+/* import package */
+import jwt from 'jsonwebtoken';
+import { config } from 'dotenv';
+import UserModel from '../../Model/UserModel.js';
+
+/* init package */
+config();
 
 
-exports.auth = async (_req, _res, next) => {
+
+export const auth = async (_req, _res, next) => {
     const { authorization } = _req.headers
     if (!authorization) return _res.status(401).end()
 

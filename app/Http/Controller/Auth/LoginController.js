@@ -1,9 +1,13 @@
 
-const UserModel = require('../../../Model/UserModel');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const Controller = require('../Controller');
-require('dotenv').config();
+/* import package */
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { config } from 'dotenv';
+import UserModel from '../../../Model/UserModel.js';
+import Controller from '../Controller.js';
+
+/* init package */
+config();
 
 
 class LoginController extends Controller {
@@ -45,4 +49,4 @@ class LoginController extends Controller {
     }
 }
 
-module.exports = LoginController
+export default LoginController

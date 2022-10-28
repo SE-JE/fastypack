@@ -1,22 +1,32 @@
 'use strict'
 
-/* require package */
-require('dotenv').config();
-const fastify = require('fastify').fastify({ logger: false })
+/* import package */
+import fastifyCors from '@fastify/cors';
+import formBodyPlugin from '@fastify/formbody';
+import fastifyMultipart from '@fastify/multipart';
+import { config } from 'dotenv';
+import { fastify } from 'fastify';
+import routes from './app/routes.js';
 
 
-/* middleware */
-fastify.register(require('@fastify/formbody')) // acc application/x-www-form-urlencoded
-    .register(require('@fastify/multipart'), { attachFieldsToBody: 'keyValues' }) // acc multipart/form-data
-    .register(require('@fastify/cors', { origin: "*" })) // acc cors
+/* init package */
+config();
+const app = fastify({ logger: true })
+
+
+/* register middleware */
+app.register(formBodyPlugin) // acc application/x-www-form-urlencoded
+    .register(fastifyMultipart, { attachFieldsToBody: 'keyValues' }) // acc multipart/form-data
+    .register(fastifyCors, { origin: "*" }) // acc cors
 
 
 /* load routes */
-fastify.register(require('./app/routes'), {}); //prefix: '/v1'
+app.register(routes); //prefix: '/v1'
+
 
 
 /* start server */
-fastify.listen({ port: Number(process.env.PORT ?? 8000) }, (err, address) => {
+app.listen({ port: Number(process.env.PORT ?? 8000) }, (err, address) => {
     if (err) {
         console.error(err)
         process.exit(1)

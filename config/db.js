@@ -1,7 +1,12 @@
-require('dotenv').config()
 
+/* import package */
+import { config } from 'dotenv';
+import knex from 'knex'
 
-exports.dbConfig = {
+/* init package */
+config();
+
+export const dbConfig = {
     client: 'mysql',
     connection: {
         host: String(process.env.DB_HOST ?? '127.0.0.1'),
@@ -18,4 +23,4 @@ exports.dbConfig = {
     },
 }
 
-exports.dbConnection = require('knex')(this.dbConfig);
+export const dbConnection = knex(dbConfig);

@@ -1,5 +1,4 @@
-
-const Controller = require("./Controller");
+import Controller from "./Controller.js";
 
 
 class SampleController extends Controller {
@@ -13,4 +12,4 @@ class SampleController extends Controller {
 }
 
 
-module.exports = SampleController
+export default SampleController

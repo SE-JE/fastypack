@@ -1,10 +1,13 @@
 
-const UserModel = require('../../../Model/UserModel');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const Controller = require('../Controller');
-require('dotenv').config();
+/* import package */
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { config } from 'dotenv';
+import Controller from '../Controller.js';
+import UserModel from '../../../Model/UserModel.js';
 
+/* init package */
+config();
 
 class RegisterController extends Controller {
     static async reigister(req, res) {
@@ -49,4 +52,4 @@ class RegisterController extends Controller {
     }
 }
 
-module.exports = RegisterController
+export default RegisterController
